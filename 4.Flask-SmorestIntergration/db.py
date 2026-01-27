@@ -1,4 +1,4 @@
-stores = {}
+stores: dict = {}
 items = {
     1: {
         "name": "Chair",
