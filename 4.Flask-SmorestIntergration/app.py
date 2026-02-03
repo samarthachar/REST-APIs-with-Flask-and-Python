@@ -42,7 +42,7 @@ def create_item():
             message="Bad Request. Ensure 'price', 'store_id', and 'name' are included in the JSON payload.",
         )
     
-    for item in item.values():
+    for item in items.values():
         if (
             item_data["name"] == item["name"]
             and item_data["store_id"] == item["store_id"]
@@ -66,15 +66,22 @@ def get_store(store_id):
     try:
         return stores[store_id], 201
     except KeyError:
-        return abort(404, message="Store not found.")
+        abort(404, message="Store not found.")
 
 @app.get("/item/<string:item_id>")
 def get_item(item_id):
     try:
         return items[item_id]
     except KeyError:
-        return abort(404, message="Item not found.")
+        abort(404, message="Item not found.")
 
+@app.delete("/item/<string:item_id>")
+def delete_item(item_id):
+    try:
+        del items[item_id]
+        return {"message": "Item deleted."}
+    except KeyError:
+        abort(404, message="Item not found.")
 
 if __name__ == "__main__":
     app.run()
