@@ -55,8 +55,6 @@ def get_item(item_id):
     except KeyError:
         abort(404, message="Item not found.")
 
-
-
 @app.post("/item")
 def create_item():
     item_data = request.get_json()
@@ -107,7 +105,6 @@ def delete_item(item_id):
         return {"message": "Item deleted."}
     except KeyError:
         abort(404, message="Item not found.")
-
 
 if __name__ == "__main__":
     app.run()
