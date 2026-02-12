@@ -23,17 +23,13 @@ class Store(MethodView):
 
 @blp.route("/store")
 class StoreList(MethodView):
+    @blp.response(201, StoreSchema(many=True))
     def get(self):
-        return {"stores": list(stores.values())}
+        return stores.values()
     
-    def post(self):
-            store_data = request.get_json()
-            if "name" not in store_data:
-                abort(
-                    400,
-                    message="Bad request. Ensure 'name' is included in the JSON payload."
-                )
-
+    @blp.arguments(StoreSchema)
+    @blp.response(200, StoreSchema)
+    def post(self, store_data):
             for store in stores.values():
                 if store_data["name"] == store["name"]:
                     abort(400, message=f"Store already exists.")
