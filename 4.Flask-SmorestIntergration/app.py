@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_smorest import Api
+from flask_smorest import Api # type: ignore
 from resources.item import blp as ItemBlueprint
 from resources.store import blp as StoreBlueprint
 
