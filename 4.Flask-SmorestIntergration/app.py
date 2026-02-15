@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_smorest import Api
-
 from resources.item import blp as ItemBlueprint
 from resources.store import blp as StoreBlueprint
 

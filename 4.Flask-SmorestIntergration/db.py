@@ -1,2 +1,2 @@
-stores: dict = {}
-items: dict = {}
+stores : dict = {}
+items : dict = {}
