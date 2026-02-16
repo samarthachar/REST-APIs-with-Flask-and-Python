@@ -1,6 +1,6 @@
 from db import db
 
-class ItemModel(db.Model):
+class ItemModel(db.Model): #type: ignore
     __tablename__ = "items"
 
     id = db.Column(db.Integer, primary_key=True)
