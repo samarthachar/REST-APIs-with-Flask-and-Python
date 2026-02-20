@@ -1,8 +1,9 @@
 import os
+import secrets
 
-from flask import Flask
+from flask import Flask # type:ignore
 from flask_smorest import Api #type: ignore
-
+from flask_jwt_extended import JWTManager #type:ignore
 from db import db
 import models
 
@@ -26,6 +27,8 @@ def create_app(db_url=None):
 
     api = Api(app)
 
+    app.config["JWT_SECRET_KEY"] = "168349683059146072080402483147514333391"
+    jwt = JWTManager(app)
     with app.app_context():
         db.create_all()
 
