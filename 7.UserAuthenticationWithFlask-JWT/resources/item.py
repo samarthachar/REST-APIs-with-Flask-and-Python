@@ -1,25 +1,27 @@
-import uuid
-from flask import request
-from flask.views import MethodView
+from flask.views import MethodView # type: ignore
 from flask_smorest import Blueprint, abort # type: ignore
-from sqlalchemy.exc import SQLAlchemyError
-
+from sqlalchemy.exc import SQLAlchemyError # type: ignore
+from flask_jwt_extended import jwt_required, get_jwt # type: ignore
 
 
 from db import db
 from models import ItemModel
-from schemas import ItemSchema, ItemUpdateSchema
+from schemas import ItemSchema, ItemUpdateSchema 
 
 blp = Blueprint("Items", __name__, description="Operations on items")
 
-@blp.route("/item/<string:item_id>")
+@blp.route("/item/<int:item_id>")
 class Item(MethodView):
     @blp.response(200, ItemSchema)
     def get(self, item_id):
         item = ItemModel.query.get_or_404(item_id)
         return item
 
+    @jwt_required()
     def delete(self, item_id):
+        jwt = get_jwt()
+        if not jwt.get("is_admin"):
+            abort(401, message="Admin privilage required.")
         item = ItemModel.query.get_or_404(item_id)
         db.session.delete(item)
         db.session.commit()
@@ -35,9 +37,10 @@ class Item(MethodView):
             item.name = item_data["name"]
 
         else:
+            if not item_data.get("store_id"):
+                abort(404, message="Store ID not given to create new item.")
             item = ItemModel(id=item_id,**item_data)  #type: ignore      
 
-        db.session.add(item)
         db.session.add(item)
         db.session.commit()
 
@@ -45,10 +48,12 @@ class Item(MethodView):
 
 @blp.route("/item")
 class ItemList(MethodView):
+    @jwt_required()
     @blp.response(200, ItemSchema(many=True))
     def get(self):
         return ItemModel.query.all()
 
+    @jwt_required(fresh=True)
     @blp.arguments(ItemSchema)
     @blp.response(200, ItemSchema)
     def post(self, item_data):

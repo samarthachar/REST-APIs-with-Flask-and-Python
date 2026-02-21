@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields #type: ignore
 
 class PlainItemSchema(Schema):
     id = fields.Int(dump_only=True)
