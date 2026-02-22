@@ -1,0 +1,47 @@
+{
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.mypy_cache": true,
+    "**/.ruff_cache": true,
+    "**/.env": false,
+    "**/.DS_Store": true,
+    "**/*.pyc": true,
+    "**/*.pyo": true,
+    "**/*.pyd": true,
+
+    // Build + dependency folders
+    "build": true,
+    "dist": true,
+    "node_modules": true,
+    "docker-data": true,
+
+    // YAML + Docker Compose files you want hidden
+    "**/*.yml": true,
+    "**/*.yaml": true,
+    "docker-compose.yml": true,
+    "docker-compose-debug.yml": true,
+
+    // Keep these visible
+    ".vscode": false,
+    ".git": false,
+    ".gitignore": false
+  },
+
+  "search.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.mypy_cache": true,
+    "**/.ruff_cache": true,
+    "**/.venv": true,
+    "**/venv": true,
+    "node_modules": true,
+    "build": true,
+    "dist": true,
+    "**/*.yml": true,
+    "**/*.yaml": true
+  },
+
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "basic"
+}
